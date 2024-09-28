@@ -1,0 +1,39 @@
+{% extends '@backend/base.html.twig' %}
+
+{% block header %}{{ '%s%s%s'|format('ui.entity.', config.entity, '.plural')|trans }}{% endblock %}
+
+{% block title %}{{ '%s%s%s'|format('ui.entity.', config.entity, '.plural')|trans }}{% endblock %}
+
+{% block body %}
+<div class="card mb-5 mb-xl-10">
+    <div class="card-header py-4 px-5 m-0 d-flex justify-content-between align-items-center">
+        <div class="card-title m-0">
+            <h3 class="fw-bold m-0">
+                <i class="bi bi-{{ config.icon }} section-icon"></i> {{ pagination is defined ? pagination.getTotalItemCount ? '' }} {{ block('header') }}
+            </h3>
+        </div>
+
+        <form method="GET" class="card-search w-25">
+            <div class="input-group flex-nowrap">
+                <label class="input-group-text bg-secondary-light border-0" for="inputGroupSelect01"><i class="bi bi-search"></i></label>
+                <input type="search" autocomplete="false" name="search" class="form-control form-control-solid shadow-none" placeholder="{{ 'form.placeholder.search_keyword'|trans }}" aria-label="{{ 'form.placeholder.search_keyword'|trans }}">
+                <button class="btn btn-outline-secondary text-dark" type="submit">{{ 'ui.button.search'|trans }}</button>
+              </div>
+        </form>
+
+        <div class="card-toolbar">
+            <a href="{{ path('backend_' ~ config.entity ~ '_new') }}" class="btn btn-primary">{{ '%s%s%s'|format('ui.entity.', config.entity, '.new')|trans }}</a>
+        </div>
+    </div>
+
+    <div class="card-body border-top p-5 m-0">
+        {{ include('@backend/' ~ config.entity ~ '/_index.html.twig', {'block_header': block('header')}) }}
+    </div>
+</div>
+
+{% if pagination is defined %}
+<div class="d-flex justify-content-center navigation">
+    {{ knp_pagination_render(pagination) }}
+</div>
+{% endif %}
+{% endblock %}

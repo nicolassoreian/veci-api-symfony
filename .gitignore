@@ -1,0 +1,16 @@
+###> docker ###
+/docker/data
+/docker/logs
+/docker/**/*.crt
+/docker/**/*.key
+/.*.env
+/docker-compose.prod.yml
+###< docker ###
+
+###> symfony ###
+/symfony/supervisord.pid
+/symfony/phpstan-results.txt
+###< symfony ###
+
+.DS_Store
+!*.gitkeep

@@ -1,0 +1,26 @@
+{% extends '@backend/authentication/base.html.twig' %}
+
+{% block title %}{{ 'ui.login'|trans }}{% endblock %}
+
+{% block body %}
+    <div class="mb-5 text-center">
+      <h1 class="fw-bold text-dark fs-4">{{ 'ui.login'|trans }}</h1>
+    </div>
+
+
+  {{ form_start(form, {'attr': {'class': 'my-auto'}}) }}
+    {{ form_row(form.email) }}
+    {{ form_row(form.password) }}
+    <div class="d-flex justify-content-end">
+      <a href="{{ path('app_forgot_password_request')}}" class="link-primary fs-6 fw-bold">
+        {{ 'ui.forgot_password'|trans }}
+      </a>
+    </div>
+
+    <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+    <div class="text-center pt-4">
+      <button type="submit" class="btn btn-lg btn-primary w-100 mb-4" tabindex="3">{{ 'ui.button.login'|trans }}</button>
+    </div>
+  {{ form_end(form) }}
+{% endblock %}

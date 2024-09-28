@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html {{ sonata_seo_html_attributes() }}>
+  <head {{ sonata_seo_head_attributes() }}>
+    {{ sonata_seo_title() }}
+    {{ sonata_seo_metadatas() }}
+    {{ sonata_seo_link_canonical() }}
+    {{ sonata_seo_lang_alternates() }}
+    {{ sonata_seo_oembed_links() }}
+
+    {% block structuredData %}{% endblock %}
+
+    <twig:SettingBlocks position="head" />
+
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ absolute_url(asset('build/images/frontend/apple-touch-icon.png')) }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ absolute_url(asset('build/images/frontend/favicon-32x32.png')) }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ absolute_url(asset('build/images/frontend/favicon-16x16.png')) }}">
+    <link rel="manifest" href="/site.webmanifest">
+
+    {% block stylesheets %}
+      {{ encore_entry_link_tags('frontend') }}
+    {% endblock %}
+
+    {% block javascripts %}
+      {{ encore_entry_script_tags('frontend') }}
+      <script src='https://www.google.com/recaptcha/api.js' async defer></script>
+      <script async charset="utf-8" src="//cdn.embedly.com/widgets/platform.js"></script>
+      <script>
+        document.querySelectorAll( 'oembed[url]' ).forEach( element => {
+            // Create the <a href="..." class="embedly-card"></a> element that Embedly uses
+            // to discover the media.
+            const anchor = document.createElement( 'a' );
+
+            anchor.setAttribute( 'href', element.getAttribute( 'url' ) );
+            anchor.className = 'embedly-card';
+
+            element.appendChild( anchor );
+        } );
+    </script>
+
+
+    {% endblock %}
+  </head>
+
+  <body>
+    <twig:SettingBlocks position="body" />
+    {% include '@frontend/_nav.html.twig' %}
+
+    {% block body %}{% endblock %}
+
+    <twig:PageClosing />
+    {% include '@frontend/_footer.html.twig' %}
+    <twig:SocialNetworksEar />
+    <twig:WhatsAppWidget />
+
+    <script>
+      <twig:SettingBlocks position="footer" />
+    </script>
+  </body>
+</html>

@@ -1,0 +1,9 @@
+{% extends '@backend/base.html.twig' %}
+
+{% block header %}{{ '%s%s%s'|format('ui.entity.', config.entity, '.edit')|trans }}{% endblock %}
+
+{% block title %}{{ '%s%s%s'|format('ui.entity.', config.entity, '.edit')|trans }}{% endblock %}
+
+{% block body %}
+    {{ include('@backend/' ~ config.entity ~ '/_form.html.twig', {'button_label': 'ui.button.update', 'block_header': block('header')}) }}
+{% endblock %}

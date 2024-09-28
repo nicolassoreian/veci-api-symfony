@@ -1,0 +1,13 @@
+{% extends '@backend/authentication/base.html.twig' %}
+
+{% block title %}Password Reset Email Sent{% endblock %}
+
+{% block body %}
+    <p>
+        {{ 'ui.help.check_email'|trans }}<br>
+        {{ 'ui.help.check_email_link_expiration'|trans }} {{ resetToken.expirationMessageKey|trans(resetToken.expirationMessageData, 'ResetPasswordBundle') }}.
+    </p>
+    <p>
+        {{ 'ui.help.check_email_dont_receive'|trans }} <a href="{{ path('app_forgot_password_request') }}">{{ 'ui.try_again'|trans }}</a>.
+    </p>
+{% endblock %}

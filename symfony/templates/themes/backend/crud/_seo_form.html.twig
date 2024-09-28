@@ -1,0 +1,49 @@
+<div class="card mt-5">
+    <div class="accordion accordion-flush" id="accordionExample">
+        <div class="accordion-item">
+            <div class="card-header accordion-button collapsed pe-on py-4 px-5 m-0 d-flex justify-content-between align-items-center" data-bs-toggle="collapse" data-bs-target="#SEOMetadata" aria-expanded="true" aria-controls="SEOMetadata">
+                <div class="card-title m-0">
+                    <h5 class="fw-bold m-0">{{ 'ui.seo_metadata'|trans }}</h5>
+                </div>
+            </div>
+            <div id="SEOMetadata" class="accordion-collapse collapse card-body px-5 m-0" data-bs-parent="#accordionExample">
+                <div class="d-flex flex-column mb-4">
+                    {{ form_row(form.metadata.title) }}
+                </div>
+
+                <div class="d-flex flex-column mb-4">
+                    {{ form_row(form.metadata.socialTitle) }}
+                </div>
+
+                <div class="d-flex flex-column mb-4">
+                    {{ form_row(form.metadata.description) }}
+                </div>
+
+                <div class="mb-4">
+                    <div class="fw-semibold fs-6 mb-3">{{ 'form.label.robots'|trans }}</div>
+                    <div class="d-flex justify-content-start">
+                        <div class="me-4">
+                            {{ form_row(form.metadata.robotsIndex) }}
+                        </div>
+
+                        <div class="me-4">
+                            {{ form_row(form.metadata.robotsFollow) }}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="d-flex flex-column mb-4">
+                    {{ form_row(form.metadata.keywords) }}
+                </div>
+
+                <div class="d-flex flex-column mb-4">
+                    {{ form_row(form.metadata.canonical) }}
+                </div>
+
+                <div class="d-flex flex-column mb-4">
+                    {{ form_row(form.metadata.type) }}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

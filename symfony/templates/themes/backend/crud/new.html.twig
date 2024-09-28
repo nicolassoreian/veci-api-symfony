@@ -1,0 +1,9 @@
+{% extends '@backend/base.html.twig' %}
+
+{% block header %}{{ '%s%s%s'|format('ui.entity.', config.entity, '.new')|trans }}{% endblock %}
+
+{% block title %}{{ '%s%s%s'|format('ui.entity.', config.entity, '.new')|trans }}{% endblock %}
+
+{% block body %}
+    {{ include('@backend/' ~ config.entity ~ '/_form.html.twig', {'block_header': block('header')}) }}
+{% endblock %}

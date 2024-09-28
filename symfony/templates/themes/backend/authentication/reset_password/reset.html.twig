@@ -1,0 +1,12 @@
+{% extends '@backend/authentication/base.html.twig' %}
+
+{% block title %}{{ 'ui.reset_password'|trans }}{% endblock %}
+
+{% block body %}
+    <h1>{{ 'ui.reset_password'|trans }}</h1>
+
+    {{ form_start(resetForm) }}
+        {{ form_row(resetForm.plainPassword) }}
+        <button class="btn btn-primary">{{ 'ui.button.reset_password'|trans }}</button>
+    {{ form_end(resetForm) }}
+{% endblock %}

@@ -1,0 +1,5 @@
+frontend:
+    resource: '../../src/Controller/Frontend/'
+    type: attribute
+    prefix: /
+    name_prefix: frontend_

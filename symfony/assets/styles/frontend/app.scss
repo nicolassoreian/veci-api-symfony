@@ -1,0 +1,37 @@
+// @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@600&family=Montserrat+Alternates:wght@400;700&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+@import '../../../node_modules/bootstrap/scss/functions';
+@import './bootstrap-variables.scss'; // Theme variable
+@import '../../../node_modules/bootstrap/scss/variables';
+@import "./bootstrap-theme.scss"; // Theme rules
+@import '../../../node_modules/bootstrap/scss/bootstrap';
+@import "./bootstrap-customization.scss"; // Theme customizations
+@import "../../../node_modules/bootstrap-icons/";
+
+
+// Small devices (landscape phones, 576px and up)
+@media (min-width: 576px) {
+  @import "./app-sm"; // Theme customizations
+}
+
+// Medium devices (tablets, 768px and up)
+@media (min-width: 768px) {}
+
+// Large devices (desktops, 992px and up)
+@media (min-width: 992px) {
+  @import "./app-l";
+}
+
+// X-Large devices (large desktops, 1200px and up)
+@media (min-width: 1200px) {
+  @import "./app-xl";
+}
+
+// XX-Large devices (larger desktops, 1400px and up)
+@media (min-width: 1400px) {
+  @import "./app-xxl";
+}
+
+// XXX-Large devices (Extra larger desktops, 1900px and up)
+@media (min-width: 1900px) {
+  @import "./app-xxxl"; // Theme customizations
+}

@@ -1,0 +1,6 @@
+$theme-colors: map-merge($theme-colors, (
+  "primary-light": $primary-light,
+  "primary-dark": $primary-dark,
+  "secondary-light": $secondary-light,
+  "secondary-dark": $secondary-dark,
+));

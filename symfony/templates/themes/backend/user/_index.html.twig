@@ -1,0 +1,53 @@
+<table class="table table-hover gy-5 align-middle table-row-dashed">
+    <thead>
+        <tr class="text-uppercase">
+            <th>{{ 'ui.user'|trans }}</th>
+            <th>{{ 'ui.role'|trans }}</th>
+            <th>{{ 'ui.enabled'|trans }}</th>
+            <th>{{ 'ui.joined_date'|trans }}</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for user in pagination %}
+        <tr>
+            <td class="d-flex align-items-center">
+                <div class="symbol symbol-circle symbol-50px overflow-hidden me-3">
+                    {% if not user.profile.image %}
+                        <img src="https://avatar.iran.liara.run/public" width="50" height="50" class="img-fluid img-rounded-circle"" alt="{{ user.fullName }}">
+                    {% else %}
+
+                    {% endif %}
+                </div>
+                <div class="d-flex flex-column">
+                    <div class="text-gray-800 mb-1">{{ user.fullname }}</div>
+                    <div class="text-muted">{{ user.email }}</div>
+                </div>
+            </td>
+            <td class="text-muted"><span class="badge fs-6 fw-normal text-bg-secondary">{{ user.roles|first|trans }}</span></td>
+            <td>{{ user.enabled ? 'ui.yes'|trans : 'ui.no'|trans  }}</td>
+            <td></td>
+            <td>
+                <div class="dropdown">
+                    <button class="btn btn-secondary-light text-dark btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        {{ 'ui.actions'|trans }}
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a class="dropdown-item" href="{{ path('backend_user_edit', {'id': user.id}) }}">{{ 'ui.edit'|trans }}</a>
+                        </li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li>
+                            {{ include('@backend/user/_delete_form.html.twig') }}
+                        </li>
+                    </ul>
+                </div>
+            </td>
+        </tr>
+    {% else %}
+        <tr>
+            <td colspan="5">{{ 'ui.no_records_found'|trans  }}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>

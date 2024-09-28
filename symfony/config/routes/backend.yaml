@@ -1,0 +1,6 @@
+backend:
+    resource: '../../src/Controller/Backend/'
+    type: attribute
+    # host: 'admin.localhost'
+    prefix: /admin
+    name_prefix: backend_

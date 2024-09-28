@@ -1,0 +1,15 @@
+.btn-primary {
+  @include button-variant($primary, $primary, $white, $primary-dark, $primary-dark, $white, $white, $primary, $primary, $white);
+}
+
+.btn-primary-light {
+  @include button-variant($primary-light, $primary-light, $primary, $primary, $primary, $white);
+}
+
+.btn-secondary {
+  @include button-variant($secondary, $secondary, $white, $secondary-dark, $secondary-dark, $white);
+}
+
+.btn-secondary-light {
+  @include button-variant($secondary-light, $secondary-light, $secondary-dark, $secondary, $secondary, $text-primary-color);
+}

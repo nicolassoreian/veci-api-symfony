@@ -1,0 +1,16 @@
+twig:
+    file_name_pattern: '*.twig'
+    form_themes:
+        - '@backend/form/bootstrap_5_layout.html.twig'
+        - '@backend/form/vich_field.html.twig'
+    paths:
+        # directories are relative to the project root dir (but you
+        # can also use absolute directories)
+        'templates/themes/frontend': 'frontend'
+        'templates/themes/backend': 'backend'
+    globals:
+        settings: '@App\Twig\AppSettings'
+
+when@test:
+    twig:
+        strict_variables: true
