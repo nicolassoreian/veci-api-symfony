@@ -14,7 +14,8 @@ use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: StoreRepository::class)]
 // #[ApiResource(normalizationContext: ['groups' => ['stores:read']], security: "is_granted('ROLE_ADMIN')")]
-#[ApiResource(normalizationContext: ['groups' => ['stores:read']], paginationClientEnabled: true, order: ['id' => 'DESC'], security: "is_granted('ROLE_ADMIN')")]
+// #[ApiResource(normalizationContext: ['groups' => ['stores:read']], paginationClientEnabled: true, order: ['id' => 'DESC'], security: "is_granted('ROLE_ADMIN')")]
+#[ApiResource(normalizationContext: ['groups' => ['stores:read']], paginationClientEnabled: true)]
 class Store
 {
     #[ORM\Id]

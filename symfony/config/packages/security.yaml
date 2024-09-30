@@ -10,21 +10,40 @@ security:
             entity:
                 class: App\Entity\User
                 property: email
-        customers:
+        merchant_user_provider:
+            entity:
+                class: App\Entity\Merchant
+                property: email
+        customer_user_provider:
             entity:
                 class: App\Entity\Customer
                 property: email
+        api_user_provider:
+            chain:
+                providers: ['merchant_user_provider', 'customer_user_provider']
 
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
         api:
-            pattern:   ^/api/
+            pattern: ^/api/
             stateless: true
-            provider: app_user_provider
             jwt: ~
+            json_login:
+                check_path: /api/login # The name in routes.yaml is enough for mapping
+                username_path: email
+                password_path: password
+                success_handler: lexik_jwt_authentication.handler.authentication_success
+                failure_handler: lexik_jwt_authentication.handler.authentication_failure
+            refresh_jwt:
+                check_path: /api/token/refresh # or, you may use the `api_refresh_token` route name
+                # or if you have more than one user provider
+            provider: api_user_provider
+            entry_point: jwt
+
         main:
+            pattern: ^/admin/
             lazy: true
             provider: app_user_provider
 
@@ -61,23 +80,13 @@ security:
             custom_authenticator: App\Security\LoginAuthenticator
             entry_point: form_login
 
-            json_login:
-                check_path: auth # The name in routes.yaml is enough for mapping
-                username_path: email
-                password_path: password
-                success_handler: lexik_jwt_authentication.handler.authentication_success
-                failure_handler: lexik_jwt_authentication.handler.authentication_failure
-            refresh_jwt:
-                check_path: /api/token/refresh # or, you may use the `api_refresh_token` route name
-                # or if you have more than one user provider
-                # provider: user_provider_name
-
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-        - { path: ^/$, roles: PUBLIC_ACCESS } # Allows accessing the Swagger UI
+        # - { path: ^/$, roles: PUBLIC_ACCESS } # Allows accessing the Swagger UI
         - { path: ^/api, roles: PUBLIC_ACCESS } # Allows accessing API documentations and Swagger UI docs
-        - { path: ^/auth, roles: PUBLIC_ACCESS }
+        # - { path: ^/auth, roles: PUBLIC_ACCESS }
+        - { path: ^/api/(login|token/refresh), roles: PUBLIC_ACCESS }
         # - { path: ^/, roles: IS_AUTHENTICATED_FULLY }
         - { path: ^/admin/login, roles: PUBLIC_ACCESS }
         - { path: ^/admin, roles: ROLE_ADMIN }

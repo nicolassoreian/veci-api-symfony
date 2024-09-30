@@ -4,6 +4,7 @@
             <th>{{ 'ui.user'|trans }}</th>
             <th>{{ 'ui.role'|trans }}</th>
             <th>{{ 'ui.enabled'|trans }}</th>
+            <th>{{ 'ui.last_login'|trans }}</th>
             <th>{{ 'ui.joined_date'|trans }}</th>
             <th></th>
         </tr>
@@ -16,7 +17,7 @@
                     {% if not user.profile.image %}
                         <img src="https://avatar.iran.liara.run/public" width="50" height="50" class="img-fluid img-rounded-circle"" alt="{{ user.fullName }}">
                     {% else %}
-
+                        <img src="{{ absolute_url(vich_uploader_asset(user.profile.image) | imagine_filter('avatar')) }}" width="50" height="50" class="img-fluid rounded-circle"" alt="{{ user.fullName }}">
                     {% endif %}
                 </div>
                 <div class="d-flex flex-column">
@@ -26,7 +27,8 @@
             </td>
             <td class="text-muted"><span class="badge fs-6 fw-normal text-bg-secondary">{{ user.roles|first|trans }}</span></td>
             <td>{{ user.enabled ? 'ui.yes'|trans : 'ui.no'|trans  }}</td>
-            <td></td>
+            <td>{# user.lastLoginAt ? user.lastLoginAt|date('d M Y, H:i') : '' #}</td>
+            <td>{# user.createdAt ? user.createdAt|date('d M Y, H:i') : '' #}</td>
             <td>
                 <div class="dropdown">
                     <button class="btn btn-secondary-light text-dark btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">

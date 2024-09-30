@@ -12,7 +12,7 @@ use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Put;
 use Doctrine\ORM\Mapping as ORM;
-use App\Repository\CustomerRepository;
+use App\Repository\MerchantRepository;
 use App\State\UserPasswordHasher;
 use Doctrine\ORM\Mapping\Index;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -20,26 +20,27 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
+
 #[ApiResource(
     operations: [
         new GetCollection(),
-        new Post(processor: UserPasswordHasher::class, validationContext: ['groups' => ['Default', 'customer:create']]),
+        new Post(processor: UserPasswordHasher::class, validationContext: ['groups' => ['Default', 'merchant:create']]),
         new Get(),
         new Put(processor: UserPasswordHasher::class),
         new Patch(processor: UserPasswordHasher::class),
         new Delete(),
     ],
-    normalizationContext: ['groups' => ['customer:read']],
-    denormalizationContext: ['groups' => ['customer:create', 'customer:update']],
+    normalizationContext: ['groups' => ['merchant:read']],
+    denormalizationContext: ['groups' => ['merchant:create', 'merchant:update']],
 )]
-#[ORM\Entity(repositoryClass: CustomerRepository::class)]
+#[ORM\Entity(repositoryClass: MerchantRepository::class)]
 #[Index(name: 'search_idx', columns: ['email'])]
 #[UniqueEntity('email')]
-class Customer implements UserInterface, PasswordAuthenticatedUserInterface
+class Merchant implements UserInterface, PasswordAuthenticatedUserInterface
 {
-    public const ROLE_CUSTOMER = 'ROLE_CUSTOMER';
+    public const ROLE_MERCHANT = 'ROLE_MERCHANT';
 
-    #[Groups(['customer:read'])]
+    #[Groups(['merchant:read'])]
     #[ORM\Id]
     #[ORM\Column(type: 'integer')]
     #[ORM\GeneratedValue]
@@ -47,15 +48,15 @@ class Customer implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[Assert\NotBlank]
     #[Assert\Email]
-    #[Groups(['customer:read', 'customer:create', 'customer:update'])]
+    #[Groups(['merchant:read', 'merchant:create', 'merchant:update'])]
     #[ORM\Column(length: 180, unique: true)]
     private ?string $email = null;
 
     #[ORM\Column]
     private ?string $password = null;
 
-    #[Assert\NotBlank(groups: ['customer:create'])]
-    #[Groups(['customer:create', 'customer:update'])]
+    #[Assert\NotBlank(groups: ['merchant:create'])]
+    #[Groups(['merchant:create', 'merchant:update'])]
     private ?string $plainPassword = null;
 
     #[ORM\Column(type: 'json')]
@@ -115,7 +116,7 @@ class Customer implements UserInterface, PasswordAuthenticatedUserInterface
     {
         $roles = $this->roles;
 
-        $roles[] = 'ROLE_CUSTOMER';
+        $roles[] = 'ROLE_MERCHANT';
 
         return array_unique($roles);
     }

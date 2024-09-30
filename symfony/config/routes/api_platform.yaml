@@ -3,5 +3,5 @@ api_platform:
     type: api_platform
     prefix: /api
 auth:
-    path: /auth
+    path: /api/login
     methods: ['POST']

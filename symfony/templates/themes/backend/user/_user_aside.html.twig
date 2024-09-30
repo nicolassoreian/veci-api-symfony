@@ -55,7 +55,7 @@
 
             <div class="fs-6 mb-2 mt-3">
                 <div class="fw-bold">{{ 'ui.last_login'|trans }}</div>
-
+                <div class="text-gray-600">{# user.profile.updatedAt ? user.profile.updatedAt|date('d M Y, H:i') : '' #}</div>
             </div>
         </div>
         {% endif %}
