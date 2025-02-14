@@ -11,8 +11,11 @@ use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Put;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\CustomerRepository;
+use App\Controller\Api\CustomerInfo;
 use App\State\UserPasswordHasher;
 use Doctrine\ORM\Mapping\Index;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -20,17 +23,28 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
+
 #[ApiResource(
+    // security: "is_granted('ROLE_CUSTOMER')",
     operations: [
         new GetCollection(),
         new Post(processor: UserPasswordHasher::class, validationContext: ['groups' => ['Default', 'customer:create']]),
-        new Get(),
+        new Get(
+            security: "is_granted('ROLE_CUSTOMER') and object == user",
+            securityMessage: 'Sorry, but you are not the owner.'
+        ),
+        new Get(
+            name: 'customerInfo',
+            uriTemplate: '/customer',
+            controller: CustomerInfo::class
+        ),
         new Put(processor: UserPasswordHasher::class),
         new Patch(processor: UserPasswordHasher::class),
         new Delete(),
     ],
     normalizationContext: ['groups' => ['customer:read']],
     denormalizationContext: ['groups' => ['customer:create', 'customer:update']],
+    paginationClientEnabled: true,
 )]
 #[ORM\Entity(repositoryClass: CustomerRepository::class)]
 #[Index(name: 'search_idx', columns: ['email'])]
@@ -63,6 +77,18 @@ class Customer implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(type: 'boolean')]
     private $enabled = true;
+
+    /**
+     * @var Collection<int, StoreProduct>
+     */
+    #[Groups(['customer:read', 'customer:create', 'customer:update'])]
+    #[ORM\ManyToMany(targetEntity: StoreProduct::class, inversedBy: 'customers')]
+    private Collection $favorites;
+
+    public function __construct()
+    {
+        $this->favorites = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -160,5 +186,29 @@ class Customer implements UserInterface, PasswordAuthenticatedUserInterface
     public function __toString(): string
     {
         return $this->getEmail();
+    }
+
+    /**
+     * @return Collection<int, StoreProduct>
+     */
+    public function getFavorites(): Collection
+    {
+        return $this->favorites;
+    }
+
+    public function addFavorite(StoreProduct $favorite): static
+    {
+        if (!$this->favorites->contains($favorite)) {
+            $this->favorites->add($favorite);
+        }
+
+        return $this;
+    }
+
+    public function removeFavorite(StoreProduct $favorite): static
+    {
+        $this->favorites->removeElement($favorite);
+
+        return $this;
     }
 }

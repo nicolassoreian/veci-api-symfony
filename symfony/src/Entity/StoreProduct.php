@@ -19,31 +19,32 @@ class StoreProduct
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['customer:read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['stores:read'])]
+    #[Groups(['stores:read', 'customer:read'])]
     private ?string $title = null;
 
     #[ORM\Column(type: Types::TEXT)]
     #[Assert\NotBlank]
-    #[Groups(['stores:read'])]
+    #[Groups(['stores:read', 'customer:read'])]
     private ?string $description = null;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
-    #[Groups(['stores:read'])]
+    #[Groups(['stores:read', 'customer:read'])]
     private ?string $price = null;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2, nullable: true)]
-    #[Groups(['stores:read'])]
+    #[Groups(['stores:read', 'customer:read'])]
     private ?string $originalPrice = null;
 
     #[ORM\Column(nullable: true)]
-    #[Groups(['stores:read'])]
+    #[Groups(['stores:read', 'customer:read'])]
     private ?bool $enabled = true;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['stores:read'])]
+    #[Groups(['stores:read', 'customer:read'])]
     private ?string $code = null;
 
     #[ORM\Column(nullable: true)]
@@ -55,6 +56,17 @@ class StoreProduct
     #[ORM\ManyToOne(inversedBy: 'product')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Store $store = null;
+
+    /**
+     * @var Collection<int, Customer>
+     */
+    #[ORM\ManyToMany(targetEntity: Customer::class, mappedBy: 'favorites')]
+    private Collection $customers;
+
+    public function __construct()
+    {
+        $this->customers = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -165,6 +177,33 @@ class StoreProduct
     public function setStore(?Store $store): static
     {
         $this->store = $store;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Customer>
+     */
+    public function getCustomers(): Collection
+    {
+        return $this->customers;
+    }
+
+    public function addCustomer(Customer $customer): static
+    {
+        if (!$this->customers->contains($customer)) {
+            $this->customers->add($customer);
+            $customer->addFavorite($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCustomer(Customer $customer): static
+    {
+        if ($this->customers->removeElement($customer)) {
+            $customer->removeFavorite($this);
+        }
 
         return $this;
     }

@@ -58,9 +58,18 @@ class Store
     #[Groups(['stores:read'])]
     private ?SpatialInterface $geolocation = null;
 
+    /**
+     * @var Collection<int, StoreSchedule>
+     */
+    #[ORM\OneToMany(targetEntity: StoreSchedule::class, mappedBy: 'store')]
+    #[Assert\NotBlank]
+    #[Groups(['stores:read'])]
+    private Collection $schedule;
+
     public function __construct()
     {
         $this->products = new ArrayCollection();
+        $this->schedule = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -166,6 +175,36 @@ class Store
     public function setGeolocation(SpatialInterface $geolocation): static
     {
         $this->geolocation = $geolocation;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, StoreSchedule>
+     */
+    public function getSchedule(): Collection
+    {
+        return $this->schedule;
+    }
+
+    public function addSchedule(StoreSchedule $schedule): static
+    {
+        if (!$this->schedule->contains($schedule)) {
+            $this->schedule->add($schedule);
+            $schedule->setStore($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSchedule(StoreSchedule $schedule): static
+    {
+        if ($this->schedule->removeElement($schedule)) {
+            // set the owning side to null (unless already changed)
+            if ($schedule->getStore() === $this) {
+                $schedule->setStore(null);
+            }
+        }
 
         return $this;
     }
