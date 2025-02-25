@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\GraphQl\DeleteMutation;
+use ApiPlatform\Metadata\GraphQl\Mutation;
 use App\Repository\StoreRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -11,11 +13,22 @@ use Doctrine\ORM\Mapping as ORM;
 use LongitudeOne\Spatial\PHP\Types\SpatialInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Serializer\Annotation\Groups;
+use ApiPlatform\Metadata\GraphQl\Query;
+use ApiPlatform\Metadata\GraphQl\QueryCollection;
 
 #[ORM\Entity(repositoryClass: StoreRepository::class)]
-// #[ApiResource(normalizationContext: ['groups' => ['stores:read']], security: "is_granted('ROLE_ADMIN')")]
-// #[ApiResource(normalizationContext: ['groups' => ['stores:read']], paginationClientEnabled: true, order: ['id' => 'DESC'], security: "is_granted('ROLE_ADMIN')")]
-#[ApiResource(normalizationContext: ['groups' => ['stores:read']], paginationClientEnabled: true)]
+
+#[ApiResource(
+    normalizationContext: ['groups' => ['stores:read']],
+    paginationClientEnabled: true,
+    graphQlOperations: [
+        new Query(),
+        new QueryCollection(),
+        new Mutation(name: 'create'),
+        new Mutation(name: 'update'),
+        new DeleteMutation(name: 'delete'),
+    ]
+)]
 class Store
 {
     #[ORM\Id]
@@ -101,7 +114,7 @@ class Store
         return $this;
     }
 
-    public function isEnabled(): ?bool
+    public function getEnabled(): ?bool
     {
         return $this->enabled;
     }

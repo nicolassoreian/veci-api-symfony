@@ -1,4 +1,3 @@
-version: "3"
 services:
   nginx:
     build:
@@ -6,7 +5,7 @@ services:
       dockerfile: ./Dockerfile
     container_name: veci_nginx
     ports:
-      - "80:80"
+      - "8080:80"
     depends_on:
       - php
     volumes:

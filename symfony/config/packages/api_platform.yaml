@@ -3,8 +3,9 @@ api_platform:
     version: 1.0.0
     formats:
         jsonld: ['application/ld+json']
-
-    # enable_swagger_ui: false
+        graphql: ['application/graphql']
+    graphql:
+        enabled: true
 
     docs_formats:
         jsonld: ['application/ld+json']

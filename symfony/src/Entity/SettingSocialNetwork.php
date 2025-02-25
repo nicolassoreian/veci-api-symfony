@@ -104,7 +104,7 @@ class SettingSocialNetwork
         return $this;
     }
 
-    public function isEnabled(): bool
+    public function getEnabled(): bool
     {
         return $this->enabled;
     }

@@ -8,6 +8,7 @@
         "ext-ctype": "*",
         "ext-iconv": "*",
         "api-platform/core": "^3.3",
+        "api-platform/graphql": "*",
         "doctrine/dbal": "^3",
         "doctrine/doctrine-bundle": "^2.13",
         "doctrine/doctrine-migrations-bundle": "^3.3",
@@ -43,7 +44,7 @@
         "symfonycasts/reset-password-bundle": "^1.22",
         "symfonycasts/verify-email-bundle": "^1.17",
         "vich/uploader-bundle": "^2.4",
-        "webonyx/graphql-php": "^15.14"
+        "webonyx/graphql-php": "^15.19"
     },
     "config": {
         "allow-plugins": {
